@@ -35,37 +35,37 @@ app.post('/clientes', (req, res) => {
     res.status(201).json(clientes)
 })
 
-
-//localhost:3000/clientes (POST)
-app.post('/atualizarCliente', (req, res) => {
-     const cliente = {
-        id: req.body.id,
-        nome: req.body.nome,
-        email: req.body.email
-    }
-    let indice = clientes.map(x => x.id).indexOf(req.body.id);
-    clientes.splice(indice, 1, cliente)
-    res.status(200).json(clientes)
-})
-
-//localhost:3000/clientes (POST)
-app.post('/excluirCliente', (req, res) => {
-   let indice = clientes.map(x => x.id).indexOf(req.body.id);
-   clientes.splice(indice, 1)
-   res.status(200).json(clientes)
-})
-
-
 //localhost:3000/clientes (GET)
 app.get('/clientes', (req, res) => {
     res.json(clientes)
 })
 
 
-//localhost:3000/teste (GET)
-app.get ('/teste', (req, res) => {
-    console.log ("Passando por aqui...")
-    res.send ('Olá!')
+//localhost:3000/clientes/id (PUT)
+app.put('/clientes/:id', (req, res) => {
+    const id = req.params.id
+    let indice = clientes.findIndex(cliente => cliente.id == id)
+    let cliente = {
+        id: id,
+        nome: req.body.nome,
+        email: req.body.email
+    }
+
+    clientes[indice] = cliente
+
+    res.status(200).json(clientes)
+})
+
+//localhost:3000/clientes (DELETE)
+app.delete('/clientes/:id', (req, res) => {
+    const id = req.params.id
+    let indice = clientes.findIndex(cliente => cliente.id == id)
+    if (indice == -1) {
+        res.status(204)
+    }
+
+    clientes.splice(indice, 1)
+    res.status(200).json(clientes)
 })
 
 
